@@ -1,61 +1,42 @@
 <?php
 
-// https://afsy.fr/avent/2013/02-principes-stupid-solid-poo
-
-// BEFORE
 class CsvDataImporter
 {
-    public function import($file)
-    {
-        $records = $this->loadFile($file);
+    private Database $db;
 
-        $this->importData($records);
+    public function import($csv_file)
+    {
+        $data = $this->read_file($csv_file);
+        $this->send_to_database($data);
     }
 
-    private function loadFile($file)
+    private function read_file($filename)
     {
-        $records = array();
-        if (false !== $handle = fopen($file, 'r')) {
-            while ($record = fgetcsv($handle)) {
-                $records[] = $record;
-            }
-        }
-        fclose($handle);
-
-        return $records;
+        return file_get_contents($filename);
     }
 
-    private function importData(array $records)
+    private function send_to_database($data)
     {
-        try {
-            $this->db->beginTransaction();
-            foreach ($records as $record) {
-                $stmt = $this->db->prepare('INSERT INTO ...');
-                $stmt->execute($record);
-            }
-            $this->db->commit();
-        } catch (PDOException $e) {
-            $this->db->rollback();
-            throw $e;
-        }
+        $stmt = $this->db->prepare("INSERT $data INTO mydb");
+        $stmt->execute();
     }
 }
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////
-// SRP
+////////////////////////
 
 
 class DataImporter
 {
-    private $loader;
-    private $gateway;
+    private FileLoader $loader;
+    private Database $gateway;
 
-    public function __construct(FileLoader $loader, Gateway $gateway)
+    public function __construct(FileLoader $loader, Database $gateway)
     {
         $this->loader  = $loader;
         $this->gateway = $gateway;
     }
+
     public function import($file)
     {
         foreach ($this->loader->load($file) as $record) {
@@ -63,4 +44,3 @@ class DataImporter
         }
     }
 }
-
