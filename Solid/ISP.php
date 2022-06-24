@@ -1,5 +1,7 @@
 <?php
 
+// https://afsy.fr/avent/2013/02-principes-stupid-solid-poo
+
 interface UrlGeneratorInterface
 {
     public function generate($name, $parameters = array());
