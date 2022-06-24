@@ -2,6 +2,7 @@
 
 // https://afsy.fr/avent/2013/02-principes-stupid-solid-poo
 
+// BEFORE
 class CsvDataImporter
 {
     public function import($file)
@@ -39,3 +40,29 @@ class CsvDataImporter
         }
     }
 }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// SRP
+
+
+<?php
+
+class DataImporter
+{
+    private $loader;
+    private $gateway;
+
+    public function __construct(FileLoader $loader, Gateway $gateway)
+    {
+        $this->loader  = $loader;
+        $this->gateway = $gateway;
+    }
+    public function import($file)
+    {
+        foreach ($this->loader->load($file) as $record) {
+            $this->gateway->insert($record);
+        }
+    }
+}
+
