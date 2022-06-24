@@ -1,5 +1,9 @@
 <?php
 
+class CsvFileLoader
+{
+}
+
 class DataImporter
 {
     private $loader;
