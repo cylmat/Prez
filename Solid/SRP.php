@@ -22,7 +22,7 @@ class CsvDataImporter
     }
 }
 
-class DataImporter
+class SRP_DataImporter
 {
     private FileLoader $loader;
     private Database $gateway;
