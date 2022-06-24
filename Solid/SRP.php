@@ -46,8 +46,6 @@ class CsvDataImporter
 // SRP
 
 
-<?php
-
 class DataImporter
 {
     private $loader;
