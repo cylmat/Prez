@@ -69,3 +69,22 @@ class EmailSender
     // ...
   }
 }
+
+
+
+
+class SRP_EmailSender
+{
+  __construct(
+    EmailBuilder,
+    EmailValidator,
+    EmailTokenGenerator,
+  ) {
+    // ...  
+  }
+  
+  public function send(Email $email) {
+    $email->getAuthor();
+    $this->prepare($email);
+  }
+}
