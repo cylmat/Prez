@@ -1,0 +1,107 @@
+SOLID
+
+Par Michael Feathers à partir des principes de programmation orientée objet identifiés par Robert Cecil Martin (Uncle Bob) en 2000 du livre “Design Principles and Design Patterns.”, 
+Ces principes visent à rendre le code plus lisible, facile à maintenir, extensible, réutilisable.
+
+
+
+STUPID
+Singleton : Couplage fort (sauf si utilisation de DI), non testable, global access!
+Tight Coupling (couplage fort): créé à l’intérieur de la classe, intestable
+Untestability: couplage, trop de dépendences, if imbriqués, bool dans les paramètres…
+Premature Optimizations: ou codegolf
+Indescriptive Naming: for(i), if $n…   -> no comments, use function name as comments
+Duplication: copy/paste
+
+- - -
+Single-responsibility Principle (SRP) : Cohesion and coupling
+A class should have one and only one reason to change, meaning that a class should have only one job
+
+A class should have one, and only one, reason to change. Robert C. Martin. 
+The SRP is one of the simplest of the principles, and one of the hardest to get right.
+
+What is Responsability? If you can think of more than one motive for changing a class, then that class has more than one responsibility.
+Decouple depending on the context, or you might add unnecessary complexity
+ 
+- - -
+Open/Closed Principle (OCP) :
+Objects or entities should be open for extension but closed for modification.
+
+Robert C. Martin considered this principle as the “the most important principle of object-oriented design”. Bertrand Meyer wrote about it in 1988, with inheritance.
+“A class is closed, since it may be compiled, stored in a library, baselined, and used by client classes. But it is also open, since any new class may use it as parent, adding new features. When a descendant class is defined, there is no need to change the original or to disturb its clients.”
+That’s why Robert C. Martin and others redefined the Open/Closed Principle to the Polymorphic Open/Closed Principle. Interfaces introduce additional level of abstraction which enables loose coupling. 
+
+A module will be said to be open if it is available for extension. For example, it should be possible to add fields to the data structures it contains, or new elements to the set of functions it performs. 
+
+You should be able to extend a class behavior, without modifying it. Robert C Martin
+
+1 . inheritance
+2. Interface
+3. Plugins
+“For Martin, as we saw above, the “plugin architecture” is the apotheosis of the OCP: What if the design of your systems was based around plugins, like Vim, Emacs, Minecraft, or Eclipse?”
+
+Plugin systems are the ultimate consummation, the apotheosis, of the Open-Closed Principle. R.C M
+
+Ref: 
+https://thevaluable.dev/open-closed-principle-revisited/
+
+
+
+- - -
+Liskov Substitution Principle (LSP) : Barbara Liskov
+Let q(x) be a property provable about objects of x of type T. Then q(y) should be provable for objects y of type S where S is a subtype of T.
+
+Derived classes must be substitutable for their base classes. Robert C. Martin.
+
+Le principe de substitution de Liskov indique qu'il doit être possible pour un objet de type T acceptant une dépendance de type S, de pouvoir remplacer cette dernière par une dépendance d'un type dérivé de S sans que cela ait le moindre impact sur le fonctionnement du code. 
+
+-> Each interface an intention-revealing name made the code easier
+-> Don’t add Exceptions
+
+- - -
+Interface Segregation Principle (ISP) : (like SRP for interfaces)
+A client should never be forced to implement an interface that it doesn’t use, or clients shouldn’t be forced to depend on methods they do not use.
+
+Make fine grained interfaces that are client specific. Robert C. Martin.
+
+- - -
+Dependency Inversion Principle (DIP) : <> dependency injection
+Entities must depend on abstractions, not on concretions. It states that the high-level module must not depend on the low-level module, but they should depend on abstractions.
+High level is using Low-level
+
+Depend on abstractions, not on implementations. Robert C. Martin.
+
+Inversion of Control: Hollywood law: Don’t call me, I’ll call you
+
+
+
+
+REF
+https://afsy.fr/avent/2013/02-principes-stupid-solid-poo
+https://stackify.com/solid-design-principles/
+
+Robert C Martin
+https://blog.cleancoder.com/uncle-bob/2014/05/12/TheOpenClosedPrinciple.html
+
+
+- - -
+
+“Any fool can write code that a computer can understand. Good programmers write code that humans can understand.” 
+—Refactoring, Martin Fowler with Kent Beck, 1996
+
+- - -
+
+Against: 
+Trop vague, pas adapté
+SRP: Pointlessly Vague Principle
+OCP: Change the code to make it do something else! 
+LSP:  Trop complexe: juste “Principle of Least Surprise”
+ISP: it’s just that it isn’t a principle, it is a pattern. A principle is something that is generally good advice in any context: A pattern is a strategy that works in a given context
+DIP: A dependency is only interesting when there might be multiple ways of providing it,, Most dependencies don’t need inverting
+
+https://dannorth.net/2022/02/10/cupid-for-joyful-coding/
+Composable: plays well with others
+Unix philosophy: does one thing well
+Predictable: does what you expect
+Idiomatic: feels natural
+Domain-based: the solution domain models the problem domain in language and structure
