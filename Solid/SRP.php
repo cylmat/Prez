@@ -40,3 +40,32 @@ class SRP_DataImporter
         }
     }
 }
+
+
+/////////////////////////////////////////////// sample2
+class EmailSender
+{
+  function checkBody($body) {
+    // ...
+  }
+  
+  public function send(Email $email) {
+    $this->prepare($email);
+  }
+  
+  function prepareHeader(Email $email) {
+    // ...
+  }
+  
+  function buildEmail() {
+    
+  }
+  
+  function getToken() {
+    $this->generateToken()
+  }
+  
+  function getAuthor($id) {
+    // ...
+  }
+}
