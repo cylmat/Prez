@@ -12,7 +12,7 @@ class Speaker {
 }
 
 class SpeakerUpdated {
-     protected $conversation = [
+    protected $conversation = [
       'make.it' => "You can do it",
       "success" => "Well done!"
     ];
@@ -21,7 +21,7 @@ class SpeakerUpdated {
         $this->conversation[$key] = $newValue;
     }
   
-    public function speak($key) {
+    public function newSpeaker($key) {
         return $this->conversation[$key];
     }
 }
