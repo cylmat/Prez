@@ -12,11 +12,6 @@ class Speaker {
 }
 
 class SpeakerUpdated extends Speaker {
-    protected $conversation = [
-      'make.it' => "You can do it",
-      "success" => "Well done!"
-    ];
-    
     public function setConversation($key, $newValue) {
         $this->conversation[$key] = $newValue;
     }
