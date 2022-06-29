@@ -1,6 +1,14 @@
 <?php
 
+class Speaker {
+    private $conversation = [
+      'make.it' => "You can do it",
+      "success" => "Well done!"
+    ];
+  
+    public function speak($key)
+    {
+        return $this->conversation[$key];
+    }
+}
 
-$importer = new DataImporter(new CsvFileLoader(), new MySQLGateway());
-$importer = new DataImporter(new XmlFileLoader(), new MongoGateway());
-$importer = new DataImporter(new JsonFileLoader(), new ElasticSearchGateway());
