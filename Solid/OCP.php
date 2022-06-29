@@ -11,7 +11,7 @@ class Speaker {
     }
 }
 
-class SpeakerUpdated {
+class SpeakerUpdated extends Speaker {
     protected $conversation = [
       'make.it' => "You can do it",
       "success" => "Well done!"
