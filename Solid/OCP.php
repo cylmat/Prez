@@ -20,3 +20,30 @@ class SpeakerUpdated extends Speaker {
         return $this->conversation[$key];
     }
 }
+
+
+
+
+
+/////////////// plugin system
+interface Operation {
+    function operate($data): int;
+}
+
+class Payement {
+    function __construct(Operation $op) //...
+        
+    public calculate(array $data): int {
+        return $op->operate($data);
+    }
+}
+
+class EmployeeOperation implements Operation {
+    function operate($data) //...
+}
+
+class ManagerOperation implements Operation {
+    function operate($data) //...
+}
+
+
