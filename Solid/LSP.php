@@ -1,13 +1,13 @@
 <?php
 
 class Transaction{
-    public void buy(String stock, int quantity, float price) {
+    public function buy(string $stock, int $quantity): object {
         // ...
-    };
+    }
 }
 
 class StockTransaction extends Transaction {
-    public void buy(String stock, int quantity, float price) {
+    public function buy(string $stock, int $quantity): void {
         // ...
     }
 }
