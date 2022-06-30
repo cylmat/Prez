@@ -31,7 +31,8 @@ interface Operation {
 }
 
 class Payement {
-    function __construct(Operation $op) //...
+    function __construct(Operation $op) 
+        //...
         
     public calculate(array $data): int {
         return $op->operate($data);
