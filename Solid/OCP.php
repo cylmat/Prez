@@ -30,7 +30,7 @@ interface Operation {
     function operate($data): int;
 }
 
-class Payement {
+class Payment {
     function __construct(Operation $op) 
         //...
         
