@@ -1,5 +1,43 @@
 <?php
 
+/**********
+* ERROR 
+*/
+abstract class Api {
+    // no token needed
+    abstract function readData(string $filter);
+}
+
+class SimpleApi extends Api {
+    function readData(string $filter) {
+        $reseau->fetchData();
+    }
+}
+
+class TokenAuthApi extends SimpleApi
+{
+    public function readData(string $filter) {
+      $token = $this->getAuthToken(); // add token dependency
+      $reseau->preAuthentication($token); // break LSP
+
+      $reseau->fetchData();
+    }
+    
+    private function getAuthToken(string $tokenUrl) {
+      return $reseau->getAuthToken();
+    }
+}
+
+(new SimpleApi())->readData(); // OK
+(new TokenAuthApi())->readData(); // Error: what is token?
+
+
+
+
+/********
+* OK
+*/
+
 class Price {
     function getPrice(): int { return 0; }
 }
