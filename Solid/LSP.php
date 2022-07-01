@@ -3,6 +3,7 @@
 /**********
 * ERROR 
 */
+
 abstract class Api {
     abstract function readData(string $filter);
 }
@@ -13,8 +14,14 @@ class SimpleApi extends Api {
     }
 }
 
-class TokenAuthApi extends SimpleApi {
-    public function readData(string $filter, $token) {
+new Manager(new SimpleApi()); // ok
+
+class TokenAuthApi extends Api {
+    public $token;
+    public function __construct($token) {
+        $this->token = $token;
+    }
+    public function readData(string $filter) {
       $reseau->preAuthentication($token); // break LSP
       $reseau->fetchData();
     }
@@ -22,12 +29,11 @@ class TokenAuthApi extends SimpleApi {
 
 class Manager {
     function __construct(Api $api) {
-        $api->readData(); 
+        $api->readData('/url/'); 
     }
 }
 
-new Manager(new SimpleApi()) // ok
-new Manager(new TokenAuthApi()) // Error: what is token?
+new Manager(new TokenAuthApi('987')); // Error: what is token?
 
 
 
