@@ -70,3 +70,47 @@ class SubStockTransaction extends StockTransaction {
 
 // usage
 $object = (new Transaction)->buy(['bottle'=>2], 10);
+
+
+
+
+
+
+
+
+/******************
+ * COVARIANT
+ */
+class Book {
+    function getId() { //...
+    }
+}
+class ChildBook extends Book {
+    function getAge() {//...
+    }
+}
+
+class Collection {
+    function getBook($id): Book {
+        return new Book('someone');
+    }
+}
+
+class ChildBookCollection extends Collection {
+    function getBook($id): ChildBook {
+        return new ChildBook('disney');
+    }
+}
+
+/// usage
+
+class Manager {
+    function saveAuthor(Collection $collection): void {
+        $book = $collection->getBook(1);
+        $book->getId();
+        // saving...
+    }
+}
+
+(new Manager())->saveAuthor(new Collection()); // ok
+(new Manager())->saveAuthor(new ChildBookCollection()); // ok
