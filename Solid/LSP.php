@@ -4,7 +4,6 @@
 * ERROR 
 */
 abstract class Api {
-    // no token needed
     abstract function readData(string $filter);
 }
 
@@ -14,22 +13,21 @@ class SimpleApi extends Api {
     }
 }
 
-class TokenAuthApi extends SimpleApi
-{
-    public function readData(string $filter) {
-      $token = $this->getAuthToken(); // add token dependency
+class TokenAuthApi extends SimpleApi {
+    public function readData(string $filter, $token) {
       $reseau->preAuthentication($token); // break LSP
-
       $reseau->fetchData();
-    }
-    
-    private function getAuthToken(string $tokenUrl) {
-      return $reseau->getAuthToken();
     }
 }
 
-(new SimpleApi())->readData(); // OK
-(new TokenAuthApi())->readData(); // Error: what is token?
+class Manager {
+    function __construct(Api $api) {
+        $api->readData(); 
+    }
+}
+
+new Manager(new SimpleApi()) // ok
+new Manager(new TokenAuthApi()) // Error: what is token?
 
 
 
