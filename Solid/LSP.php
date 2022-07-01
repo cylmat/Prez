@@ -42,34 +42,44 @@ new Manager(new TokenAuthApi('987')); // Error: what is token?
 * OK
 */
 
+class Stock {
+    function getStock(): int { /**/ return 1; }
+}
+
+class SubStock extends Stock {
+    function getStock(): int { /**/ return 2; }
+}
+
 class Price {
-    function getPrice(): int { return 0; }
+    function getPrice(): int { return 10; }
 }
+
 class PromoPrice extends Price {
-    function getPrice(): int { return 1; }
+    function getPrice(): int { return 20; }
 }
-///
 
 class Transaction {
-    public function buy(array $stock, float $tarif): object {
-        return new Price($tarif);
+    function buy(SubStock $stock): Price {
+        $value = $stock->getStock();
+        return new Price();
     }
 }
 
 class StockTransaction extends Transaction {
-    public function buy(iterable $stock, float $tarif): Price {
-        return new Price($tarif);
+    function buy(Stock $stock): PromoPrice {
+        return new PromoPrice();
     }
 }
 
-class SubStockTransaction extends StockTransaction {
-    public function buy($stock, $tarif): PromoPrice {
-        return new PromoPrice($tarif);
+class Client {
+    function run(Transaction $transaction) {
+        $stock = new SubStock();
+        $object = $transaction->buy($stock);
     }
 }
 
-// usage
-$object = (new Transaction)->buy(['bottle'=>2], 10);
+(new Client)->run(new Transaction); // ok
+(new Client)->run(new StockTransaction); // LSP ok
 
 
 
