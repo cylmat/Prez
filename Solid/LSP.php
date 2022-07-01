@@ -114,3 +114,38 @@ class Manager {
 
 (new Manager())->saveAuthor(new Collection()); // ok
 (new Manager())->saveAuthor(new ChildBookCollection()); // ok
+
+
+
+
+/*********************
+ * Contravariant
+ */
+class Stock {
+    function getQty() {} //...
+}
+class UnitStock extends Stock {
+    function getUnitType() {} //...
+}
+///
+
+class Transaction {
+    public function buy(UnitStock $stock) {
+        $stock->getUnitType();
+    }
+}
+
+class TruckTransaction extends Transaction {
+    public function buy(Stock $stock) {
+        $stock->getQty();
+    }
+}
+
+class Manager {
+    function runTransaction(Transaction $transaction) {
+        $transaction->buy(new UnitStock());
+    }
+}
+
+// usage
+(new Manager)->runTransaction(new TruckTransaction());
