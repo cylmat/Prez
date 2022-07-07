@@ -4,36 +4,35 @@
 * ERROR 
 */
 
-abstract class Api {
-    abstract function readData(string $filter);
+interface Api {
+    function readData(string $filter);
 }
 
-class SimpleApi extends Api {
+class SimpleApi implements Api {
     function readData(string $filter) {
-        $reseau->fetchData();
+       // $reseau->fetchRemote();
     }
 }
 
-new Manager(new SimpleApi()); // ok
-
-class TokenAuthApi extends Api {
-    public $token;
-    public function __construct($token) {
-        $this->token = $token;
-    }
-    public function readData(string $filter) {
-      $reseau->preAuthentication($token); // break LSP
-      $reseau->fetchData();
+class TokenAuthApi extends SimpleApi {
+    public function readData(int $filter) {
+      if (99 === $filter)
+          $reseau->preAuthentication($token); // break LSP
+      $reseau->fetchRemote();
     }
 }
 
-class Manager {
+class Client {
     function __construct(Api $api) {
         $api->readData('/url/'); 
     }
 }
 
-new Manager(new TokenAuthApi('987')); // Error: what is token?
+new Client(new SimpleApi()); // ok
+
+// On remplace SimpleApi par une classe dérivé TokenAuthApi
+new Client(new TokenAuthApi()); 
+// Err: on passe un string -> int attendu
 
 
 
@@ -131,31 +130,49 @@ class Manager {
 /*********************
  * Contravariant
  */
-class Stock {
-    function getQty() {} //...
-}
-class UnitStock extends Stock {
-    function getUnitType() {} //...
-}
-///
-
-class Transaction {
-    public function buy(UnitStock $stock) {
-        $stock->getUnitType();
-    }
+$client->run(Manager $manager) {
+    $manager->manage(“EAN135-abf”);
+    $manager->manage(32);
 }
 
-class TruckTransaction extends Transaction {
-    public function buy(Stock $stock) {
-        $stock->getQty();
-    }
+// same
+class ChildManager extends Manager {
+    function manage(int|string $idOrEan) {
+        $database->getProductByEan($idOrEan)
+        $database->getProductById($idOrEan)
 }
 
-class Manager {
-    function runTransaction(Transaction $transaction) {
-        $transaction->buy(new UnitStock());
-    }
+// fail
+class OnlyEanManager extends Manager {
+    function manage(string $ean) {
+        $database->getProductByEan($idOrEan)
 }
 
-// usage
-(new Manager)->runTransaction(new TruckTransaction());
+// pass
+class LSPManager extends Manager {
+    function manage(int|string|array $param) {
+        $database->getProductByEan($param)
+        $database->getProductByArray($param)
+}
+
+//////// object
+    
+$client->run(Manager $manager) {
+    $manager->manage(new Param);
+}
+
+class ChildManager extends Manager {
+    function manage(Param $param) {
+        $database->getProductByParam($param->getParam())
+        $database->getProductByArray($param->getInnerArr())
+}
+
+class SpecificManager extends Manager {
+    function manage(SpecificParam $specific) {
+        $database->getSpecialData($specific->getSpecific())
+}
+    
+class LSPManager extends Manager {
+    function manage(ArrayObject $param) {
+        $database->getProductByArray($param->getInnerArr())
+}
