@@ -10,15 +10,16 @@ interface Api {
 
 class SimpleApi implements Api {
     function readData(string $filter) {
-       // $reseau->fetchRemote();
+       $reseau->fetchRemote($filter);
     }
 }
 
 class TokenAuthApi extends SimpleApi {
-    public function readData(int $filter) {
-      if (99 === $filter) // break LSP
-          $reseau->preAuthentication($token); 
-      $reseau->fetchRemote();
+    public function readData(int $filterId) {
+      if (!$reseau->preAuthentication($filterId)) {
+          throw new \Exception();
+      }
+      $reseau->fetchRemoteById($filterId);
     }
 }
 
@@ -34,6 +35,7 @@ new Client(new SimpleApi()); // ok
 new Client(new TokenAuthApi()); 
 
 // Err: on passe un string -> int attendu
+// Exception non gérée
 
 
 
