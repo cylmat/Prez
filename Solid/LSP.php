@@ -6,26 +6,34 @@
 
 interface Api {
     function readData(string $filter);
+    function checkList();
 }
 
 class SimpleApi implements Api {
     function readData(string $filter) {
-       $reseau->fetchRemote($filter);
+       $reseau->fetchRemote();
     }
+    function checkList() {} // ...
 }
 
 class TokenAuthApi extends SimpleApi {
     public function readData(int $filterId) {
-      if (!$reseau->preAuthentication($filterId)) {
+      if (!$reseau->preAuthentication($filter)) {
           throw new \Exception();
       }
-      $reseau->fetchRemoteById($filterId);
+      $reseau->fetchRemote();
+    }
+    
+    public function checkList() {
+        return null; // function not used
     }
 }
 
 class Client {
     function __construct(Api $api) {
         $api->readData('/url/'); 
+        $list = $api->checkList();
+        // other ... 
     }
 }
 
@@ -36,7 +44,7 @@ new Client(new TokenAuthApi());
 
 // Err: on passe un string -> int attendu
 // Exception non gérée
-
+// Fonction désactivée, etc...
 
 
 
