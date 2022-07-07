@@ -16,8 +16,8 @@ class SimpleApi implements Api {
 
 class TokenAuthApi extends SimpleApi {
     public function readData(int $filter) {
-      if (99 === $filter)
-          $reseau->preAuthentication($token); // break LSP
+      if (99 === $filter) // break LSP
+          $reseau->preAuthentication($token); 
       $reseau->fetchRemote();
     }
 }
@@ -32,6 +32,7 @@ new Client(new SimpleApi()); // ok
 
 // On remplace SimpleApi par une classe dérivé TokenAuthApi
 new Client(new TokenAuthApi()); 
+
 // Err: on passe un string -> int attendu
 
 
